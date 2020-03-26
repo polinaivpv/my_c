@@ -1,0 +1,42 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#define M 8
+#define N 5
+
+int main()
+{
+    int a[M][N],i, j;
+    int f;
+    int num;
+
+
+    for(i = 0; i < M; i++)
+    for(j = 0; j < N; j++)
+      a[i][j] = rand()%10;
+
+    for(i = 0; i < M; i++)
+    {
+      for(j = 0; j < N; j++)
+        printf("%5d", a[i][j]);
+        printf("\n");
+    }
+
+    for(j = 0; j < N; j++){
+    f = 0;
+        for(i = 0; i < M; i++)
+        {
+            if(a[i][j]%2 != 0)
+            {
+                f++;
+            }
+        }
+    if (f == M)
+      {
+        printf("Num is %d", j);
+        break;
+      }   
+    }
+    return 0;
+}
+
