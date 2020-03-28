@@ -1,0 +1,33 @@
+#include <stdio.h>
+
+char s[10];
+int A[10];
+
+void fatoi(char *s)
+{
+  int i, j;
+
+  for (i=0; i<10; i++)
+    {
+        A[i]=s[i];
+    }
+}
+
+int main()
+{
+  char c;
+  int i;
+
+  printf ("Vvedite stroku:");
+  fgets(s, 10, stdin);
+
+  fatoi(s);
+
+  printf("Simvolniy vid:");
+  for (i=0; i<10; i++)
+    {
+        printf("%d",A[i]);
+    }
+
+  return 0;
+}
