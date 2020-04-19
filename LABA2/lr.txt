@@ -1,0 +1,362 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+
+typedef struct Node
+{
+	char a[50];
+	struct Node * next;
+} Node;
+
+/* - функция для реализации "Создания" и "Дополнения" одной кнопкой.
+
+int addNewNode(Node **head, int n)
+{
+	Node * newnode = (Node *)malloc(sizeof(Node));
+	
+	
+	if (newnode == NULL)
+		return -1;
+
+	newnode->next = NULL;
+	newnode->a = n;
+
+
+	if (*head == NULL)
+	{
+		*head = newnode;
+	}
+	else
+	{
+		Node * p = *head;
+		while (p->next != NULL)
+			p = p->next;
+
+		p->next = newnode;
+	}
+
+	return 0;
+}
+
+*/
+
+
+Node * create()
+{
+	Node *one;
+	char str[50] = {0};
+	one = malloc(sizeof(Node));
+	if (one == NULL)
+	{
+		return NULL;
+	}
+	printf("Input Head \n");
+	scanf("%s", str);
+	if (_countof(str) == NULL)
+	{
+		return NULL;
+	}
+	memcpy(one->a, str, _countof(str));
+	one->next = NULL;
+	return one;
+}
+
+
+int add(Node *head)
+{
+	char str[50] = {0};
+	printf("Input new node (string): \n");
+	scanf("%s", str);
+	if (_countof(str) == NULL)
+	{
+		return 1;
+	}
+	add_element_end(str, _countof(str), head);
+	return 0;
+}
+
+
+int add_element_end(char * data, int size, Node *head)
+{
+	
+	Node *tmp = (Node*)malloc(sizeof(Node));
+	
+	memcpy(tmp->a, data, size);
+	
+	tmp->next = NULL;
+	
+	Node *p = head;
+	
+	while (p->next != NULL)
+		p = p->next;
+	
+	p->next = tmp;
+
+	return 0;
+}
+
+void print(Node *head)
+{
+
+	Node *tmp = head;
+	while (tmp != NULL)
+	{
+		
+		printf("\n %s \n", tmp->a);
+		tmp = tmp->next;
+	}
+}
+
+
+
+
+void del_list(Node **head)
+{
+	
+	Node* tmp;
+	tmp = *head;
+	while (tmp != NULL)
+	{
+		void * next = tmp->next;
+
+		free(tmp);
+
+		tmp = next;
+	}
+
+	*head = NULL;
+
+}
+		
+		
+
+void del_one(Node **head) {
+	
+	if (*head == NULL)
+	{
+		return;
+	}
+	Node *p = *head;
+	if (p->next == NULL)
+	{
+		free(p);
+		*head = NULL;
+		return;
+
+	}
+	
+	Node * next = p->next;
+
+	while (next->next != NULL)
+	{
+		p = next;
+		next = p->next;
+	}
+	free(next);
+	p -> next = NULL;
+}
+
+
+int search(Node *head, char * str, int size)
+{
+
+	int number=1;
+	Node *tmp = head;
+	while (tmp!= NULL)
+	{
+
+		if (memcmp(tmp->a, str, size)==0)
+		{
+			return number;
+		}
+		number++;
+		tmp = tmp->next;
+	}
+	return 0;
+}
+
+void mainmenu()
+{
+	system("cls");
+	printf("[Main Menu]\n \n");
+	printf("Press [1] to create list\n");
+	printf("Press [2] to add a new element to the end of the list \n");
+	printf("Press [3] to show the list\n");
+	printf("Press [4] to delete element from the end of the list\n");
+	printf("Press [5] to delete the list\n");
+	printf("Press [6] to search element in list\n");
+	printf("Press [7] to open [About]\n");
+	printf("Press [8] to open [Error-List]\n");
+	printf("Press [9] to exit from programm \n \n");
+	
+}
+
+
+void about() 
+{
+	system("cls");
+	printf("[About programm] \n");
+	printf("The authors of the project Polina and Nikita \n");
+	printf("Special for D.U. Fedorov \n");
+	printf("Saint Petersburg, Bonch, 2020. \n");
+	printf("\n \t Press any button to go to [MainMenu]\n \n");
+	system("pause");
+}
+
+int error_list()
+{
+	system("cls");
+	printf("[Error-list] - input number your error (press 0 to exit [Error-list]) \n");
+	
+	char e;
+	fflush(stdin);
+	e = getchar();
+	switch (e)
+	{
+	case '0':
+		main(); break;
+
+	case '1':
+		printf("List not created, create list to use this func. \n"); break;
+
+	case '2':
+		printf("You entered an invalid string. \n"); break;
+
+	case '3':
+		printf("You entered an invalid value \n");  break;
+
+	default:
+		printf("error #3, press any button to go to [Error-list] \n");
+	
+		break;
+	}
+	system("pause");
+	error_list();
+}
+
+
+
+
+
+
+
+int main()
+{
+
+	
+	Node * head;
+	head = NULL;
+	int n, m = 42;
+	{
+		while (m != 0)
+		{
+			mainmenu();
+			//n = getchar();
+			int res = scanf_s("%d", &n);
+
+			if (res != 1)
+			{
+				fflush(stdin);
+				n = 0;
+			}
+			
+			switch (n)
+			{
+			case 1:
+				head = create(); 
+				if (head == NULL)
+				{
+					printf("error #2, open error-list to search the error \n");
+					break;
+				}
+
+				printf("\n List is created \n"); system("pause");
+				
+				break;
+				
+			case 2:
+				if (head == NULL)
+				{
+					printf("error #1, open error-list to search the error \n");
+					system("pause");
+					break;
+				}
+				int resadd = add(head);
+				if (resadd == 1)
+				{
+					printf("error #1, open error-list to search the error \n");
+					system("pause");
+					break;
+				}
+				system("pause");  break;
+			
+			case 3:
+				if (head == NULL)
+				{
+					printf("error #1, open error-list to search the error \n");
+					system("pause");
+					break;
+				}
+				print(head); system("pause"); break;
+		
+			case 4:
+				if (head == NULL)
+				{
+					printf("error #1, open error-list to search the error \n");
+					system("pause");
+					break;
+				}
+				del_one(&head); printf("One element is deleted "); system("pause"); break;
+			
+			case 5:
+				if (head == NULL)
+				{
+					printf("error #1, open error-list to search the error \n");
+					system("pause");
+					break;
+				}
+				del_list(&head);
+				printf("List is deleted \n"); 
+				system("pause");
+				break;
+
+			case 6:
+				if (head == NULL)
+				{
+					printf("error #1, open error-list to search the error \n");
+					system("pause");
+					break;
+				}
+				char str[50] = {0};
+				scanf("%s", str);
+				int pos = search(head, str, _countof(str));
+				if (pos != 0)
+					printf("\n the number is:%d \n", pos);
+				else
+					printf("Not find \n");
+				system("pause");
+				break;
+			
+			case 7:
+				about(); break;
+
+			
+			case 8:
+				error_list(); break;
+
+			
+			case 9:
+				exit(0); break;
+
+			default:
+				printf("error #3, open error-list to search the error \n");
+				system("pause");
+				break;
+			}
+		}
+	}
+
+	system("pause");
+	return 0;
+}
